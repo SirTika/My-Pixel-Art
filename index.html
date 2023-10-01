@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Pixel Arts</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        My Pixel Arts
+    </header>
+
+    <section class="container">
+        <div class="box" box1><img src="img/Capybaras(full).png" onclick="enlarge(this)"></div>
+        <div class="box" box2><img src="img/capybaraLink.png" onclick="enlarge(this)"></div>
+        <div class="box" box3><img src="img/PumpkinFull.png" onclick="enlarge(this)"></div>
+        <div class="box" box4><img src="img/skeletonAxe.png" onclick="enlarge(this)"></div>
+        <div class="box" box5><img src="img/Time.png" onclick="enlarge(this)"></div>
+        <div class="box" box6><img src="img/bee.png" onclick="enlarge(this)"></div>
+    </section>
+
+    <script>
+        var images = Array.from(document.querySelectorAll('.box img'));
+        var overlay = document.createElement('div');
+        overlay.className = 'overlay';
+        document.body.appendChild(overlay);
+
+        function enlarge(img) {
+            var newImg = img.cloneNode(true);
+            newImg.src = img.src;
+            newImg.classList.add('enlarged');
+            newImg.style.objectFit = 'contain';
+            overlay.style.display = 'block';
+            
+            var index = images.indexOf(img);
+            
+            var leftArrow = document.createElement('img');
+            leftArrow.className = 'arrow left';
+            leftArrow.src = 'img/leftArrow.png'; // substitua pelo caminho real da imagem da seta esquerda
+            leftArrow.onclick = function() {
+                if (index > 0) {
+                    document.body.removeChild(newImg);
+                    document.body.removeChild(leftArrow);
+                    document.body.removeChild(rightArrow);
+                    enlarge(images[index - 1]);
+                } else {
+                // Se estiver na primeira imagem, volta para a última
+                document.body.removeChild(newImg);
+                document.body.removeChild(leftArrow);
+                document.body.removeChild(rightArrow);
+                enlarge(images[images.length - 1]);
+            }
+            };
+            
+            var rightArrow = document.createElement('img');
+            rightArrow.className = 'arrow right';
+            rightArrow.src = 'img/rightArrow.png'; // substitua pelo caminho real da imagem da seta direita
+            rightArrow.onclick = function() {
+                if (index < images.length - 1) {
+                    document.body.removeChild(newImg);
+                    document.body.removeChild(leftArrow);
+                    document.body.removeChild(rightArrow);
+                    enlarge(images[index + 1]);
+                } else {
+                // Se estiver na última imagem, volta para a primeira
+                document.body.removeChild(newImg);
+                document.body.removeChild(leftArrow);
+                document.body.removeChild(rightArrow);
+                enlarge(images[0]);
+            }
+            };
+            
+            document.body.appendChild(leftArrow);
+            document.body.appendChild(rightArrow);
+            
+            newImg.onclick = function() {
+                this.remove(); // remove a imagem ampliada
+                overlay.style.display = 'none';
+                document.body.removeChild(leftArrow);
+                document.body.removeChild(rightArrow);
+                this.onclick = function() { enlarge(this); };
+            }
+            
+            document.body.appendChild(newImg); // adiciona a nova imagem ao corpo do documento
+        }
+
+                document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowLeft') {
+                // Simula um clique na seta esquerda
+                var leftArrow = document.querySelector('.arrow.left');
+                if (leftArrow) leftArrow.click();
+            } else if (event.key === 'ArrowRight') {
+                // Simula um clique na seta direita
+                var rightArrow = document.querySelector('.arrow.right');
+                if (rightArrow) rightArrow.click();
+            } else if (event.key === 'Escape') {
+                // Simula um clique na imagem ampliada para sair do zoom
+                var enlargedImg = document.querySelector('.enlarged');
+                if (enlargedImg) enlargedImg.click();
+            }
+        });
+
+                overlay.addEventListener('click', function() {
+            var enlargedImg = document.querySelector('.enlarged');
+            if (enlargedImg) enlargedImg.click();
+        });
+    </script>
+</body>
+</html>
