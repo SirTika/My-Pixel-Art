@@ -8,7 +8,9 @@
 </head>
 <body>
     <header>
-        My Pixel Arts
+        <div>
+            <img src="img/tikaTXT.png" style="height: 50px;">
+        </div>
     </header>
 
     <section class="container">
@@ -109,6 +111,13 @@
             var enlargedImg = document.querySelector('.enlarged');
             if (enlargedImg) enlargedImg.click();
         });
+
+        window.onload = function() {
+    var imgs = document.getElementsByTagName('img');
+    for (var i = 0; i < imgs.length; i++) {
+        imgs[i].draggable = false;
+    }
+};
     </script>
 </body>
 </html>
